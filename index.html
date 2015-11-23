@@ -1,2 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function afterLoad() {
+          var img = document.createElement("img");
+          img.src = "http://i.imgur.com/SgGYJij.jpg";
+          var parent = document.getElementsByTagName("body")[0];
+          parent.insertBefore(img, parent.childNodes[0]);
+      };
+      window.onload = afterLoad;
+    </script>
+  </head>
+  <p>
+    We use github-pages for the server. Its a simple setup linking a github repo to a static page.
+    The only downside is that the page is static/no serverside processing is enabled.
+    The bandwidth and disk quota is not strictly specified, but for smaller sites (which the service is intended) the ease of use and stability is fine.
+  </p>
 
-Kagemand
+  <p>
+    <a href="http://mbostock.github.io/d3/talk/20111116/bundle.html">link</a>
+    Circular bundling is used for showing inter connections between elements in a set.
+    The diagram can give an overview of the tendencies while yielding details interactivle when hovering the cursor over a label on the circel.
+    The downside is that the circular layout of the labels have little meaning and the connections can become too cluttered for any meaning to be seen.
+  </p>
+  <p>
+    <a href="http://bl.ocks.org/paulovn/raw/9686202/">link</a>
+    Graphs let you explore connections between items.
+    Huge graphs can easily become so convoluted that they grant little overview, or the edges become too cluttered to get a sense of what is connected.
+  </p>
+  <p>
+    <a href="http://www.nytimes.com/interactive/2012/02/13/us/politics/2013-budget-proposal-graphic.html?_r=0">link</a>
+    Bubbles let you quickly distinguish the major parts of a diagram.
+    Finding the smaller bubbles can be hard, also it can be tricky to estimate the exact difference, only that one thing is bigger than another.
+  </p>
+  <p>
+    <a href="http://bl.ocks.org/mbostock/1093025">link</a>
+    A tree structure can be a nice structure for hieracal data, an example is visualizing the DOM in a webbrowser for webdevelopment, or in a filebrowser.
+    The visualization falls slightly apart when many items are nested on the same level, turning the tree more or less into a listing.
+  </p>
+
+
+  <p>
+    Søren would like to be able to build a searchable graph at the end of the course.
+    An example would be the graph containing all webpages visited in a browser. connected by how they were visited (resulting in a tree structure). But also connected by their subject/content.
+    This graph could be as the main way of interacting with the browser, in an attempt to replace bookmarks and the history and multiple open tabs.
+    Instead of searching a list (or tree) of bookmarks with manual written names and tags you could search the entire graph, more important pages could be ranked higher.
+    When searching for a previously opened page instead of having to remember the exact page name, the context of how it was found last can be used to relocate it in the graph.
+    <br/>
+    <br/>
+    The data could be collected by a browser/plugin, both tracking how pages are visited from each other, by automatically extracting keywords about content and by manual ranking of "interesting" pages.
+  </p>
+  <body>
+  </body>
+</html>
