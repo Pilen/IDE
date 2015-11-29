@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://localhost:8080/skewer"></script>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href="/c3-0.4.10/c3.min.css" rel="stylesheet" type="text/css">
+    <script src="/c3-0.4.10/c3.min.js"></script>
+    <script src="data.js"></script>
+    <script src="heatmap.js"></script>
+    <script src="plot.js"></script>
+  </head>
+  <body style="background-color:lightgrey">
+    <div id="chart"></div>
+    <p>
+      Here we take a look on the temperature development in Copenhagen in the period 1880-2015.
+    </p>
+    <p>
+      In the top plot, the meassured temperature is ploted for each month (hover the cursor above a label to isolate it). An average of the temperature for the year is plotted as green.
+      In the bottom plot a heatmap is shown, with months on the x axis (jan. to dec.)
+      and years plotted starting with 1880 in the top and 2015 at the bottom.
+    </p>
+    <p>
+      Overall the temperatures are "fairly" stable, a slight increase in the average temperature can be seen.
+    </p>
+    <p>
+      What is more obvious is the fluctuations in temperature in the winter months.
+      For some years the winters are "blue", while other are yellow.
+    </p>
+    <p>
+      Overall it seems that the yellow mid temperatures are extending, making the winters shorter. At the same time more bright red spots show up during the summer.
+    </p>
+    <p>
+      It does look like the average temperature is rising slowly in Copenhagen.
+    </p>
+
+    <p>
+      To get a better image of temperature development it would be usefull to have comparable data for other locations. The average temperature per month in Denmark, Europe and the world could be beneficial.
+      Comparing the data for other locations it would be easier to see if variations are due to a bigger phenomena.
+    </p>
+  </body>
+</html>
