@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://localhost:8080/skewer"></script>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="hands_data.js"></script>
+    <script src="hands.js"></script>
+    <link href="hands.css" rel="stylesheet" type="text/css">
+  </head>
+  <body style="background-color:lightgrey">
+    <div id="tooltip" class="hidden">
+      <p><span id="value">?</span></p>
+    </div>
+    <div id="hands"></div>
+    <p>
+      This is a visualisation of a set of hands.
+    </p>
+    <p>
+      Each hand is described as a 112 dimensional vector, with 56 x coordinates and 56 y coordinates.
+      When paired up, each coordinate represents a part of the line drawing a 2d representation of the hand.
+    </p>
+    <p>
+      The color is used to more easily find specific hands from the dataset, but has no inherent meaning.
+    </p>
+    <p>
+      A <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal Component Analysys (PCA)</a> is a technique for finding the axes in the dimensions of the data based on the variance.
+      The first component, is the highest variance, the second component the second highest variance and so on.
+      In many datasets a lot of difference is encoded in the couple of dimensions of the PCA, while the lower dimensions are indistinguishable from noise.
+    </p>
+    <p>
+      For the hands, the PCA has been calculated and plotted in the system.
+      On the x-axis the first component is plotted, and on the y-axis the second component.
+      Hover over a component to see the corresponding hand shape.
+    </p>
+    <p>
+      For this dataset it can be seen how hands to the left in the plot are very open, and hands to the right are closed.
+      The y axis seems to tell something about how the middle and ring finger are positioned.
+    </p>
+  </body>
+</html>
