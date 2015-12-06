@@ -21,7 +21,7 @@ var color = d3.scale.linear()
 console.log(color(14));
 
 var offset_x = 40;
-var offset_y = 40
+var offset_y = 40;
 
 function create_heatmap() {
 
