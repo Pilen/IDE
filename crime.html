@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://localhost:8080/skewer"></script>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="crime_categories.js"></script>
+    <script src="crime.js"></script>
+    <link href="crime.css" rel="stylesheet" type="text/css">
+    <!-- <script src="http://maptimeboston.github.io/d3-maptime/example3/neighborhoods.js"></script> -->
+  </head>
+  <body style="background-color:lightgrey">
+    <div id="tooltip" class="hidden">
+      <p><span id="value">?</span></p>
+    </div>
+    <div id="crimemap"></div>
+    <div>
+      <p>
+        In the above visualization 10000 crimescenes in San Francisco are plotted on a map.
+      </p>
+      <p>
+        The map is divided into the 10 police districts of the city.
+        The color of the district is based on the crimerate (number of incidents in the district), black being the district with most crime and white for districts with no crime.
+      </p>
+      <p>
+        Each incident is plotted as a point with a simple colorcode, hover over the legends to filter out the different categories.
+      </p>
+      <p>
+        It is immediately obvious that most of San Francisco's crime is centered around the tenderloin district.
+        But a strip down the middle of the mission district is also ladden with crime.
+      </p>
+      <p>
+        It seems drug/narcotics crimes are a good indicator of the general crimelevel in the area. It clusters around the centers of the of the other types of crime.
+      </p>
+      <p>
+        The economic crimes (blue) and thivery (green) especially burglary and vehicle theft are more spread out.
+        Though there are still a lot of these in the area around the tenderloin, they seem to be occur in the entire city.
+      </p>
+      <p>
+        There are severeal spots in the map with no/very little crime occuring.
+        The most dominant spots are The golden gate park, Mount Sutro/Twin Peaks/diamond heights and Lake Merced Park. But if you compare the visualization with a map you will see that most parks and open areas have little or no crime.
+      </p>
+      <p>
+        This means that walking home at night in a dark park might feel scary and uncomfortable, but it might actually be safer than going through the city.
+        Tvshows love the suspense of a innocent woman being stalked and assulted with no one around to help, but reality is that not much is going on in these places.
+      </p>
+    </div>
+  </body>
+</html>
