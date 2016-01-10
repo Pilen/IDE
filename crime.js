@@ -6,9 +6,9 @@ String.prototype.toProperCase = function () {
 var sf_crimes = null;
 var sfpd_districts = null;
 var ready = 3;
-d3.json("/sf_crime.geojson", function(error, crimes) {sf_crimes = crimes;
+d3.json("/IDE/sf_crime.geojson", function(error, crimes) {sf_crimes = crimes;
                                                      if (error) {console.log(error);} else {start();}});
-d3.json("/sfpd_districts.geojson", function(error, districts) {sfpd_districts = districts;
+d3.json("/IDE/sfpd_districts.geojson", function(error, districts) {sfpd_districts = districts;
                                                               if (error) {console.log(error);} else {start();}});
 
 function start() {
