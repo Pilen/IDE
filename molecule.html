@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <script src="http://localhost:8080/skewer"></script> -->
+    <!-- <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+    <script src="three.min.js" charset="utf-8"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="stats.min.js"></script>
+    <script src="pdb2rh1.js"></script>
+    <script src="molecule.js"></script>
+    <!-- <link href="crime.css" rel="stylesheet" type="text/css"> -->
+    <style>
+      body {
+        margin: 0px;
+        <!-- overflow: hidden; -->
+      }
+    </style>
+  </head>
+  <body style="background-color:lightgrey">
+    <div id="container"></div>
+    <div id="tooltip" class="hidden">
+      <p><span id="value">?</span></p>
+    </div>
+    <d.v>
+      <p>
+        This is a visualization of the pdb2rh1 molecule.
+      </p>
+      <p>
+        The structure is based on pdb2rh1.ent describing the molecule.
+        <pre>
+          awk 'BEGIN {OFS=", "; print "var pdb2rh1_molecule = ["} /^ATOM/ {print "    { x: "substr($0, 32, 7),"y: "substr($0, 40, 7), "z: "substr($0, 48, 7), "element: \""substr($0, 78,1)"\" },"} END {print "];"}' pdb2rh1.ent > pdb2rh1.js
+        </pre>
+        All atoms has been extracted by a simple awk command, and turned into a simple js list of atoms.
+      </p>
+      <p>
+        The atoms are color coded by element, C=gray, N=blue, O=red, S=yellow, H=white. All atoms with an euclidian distance of less than 1.9 has a bond drawn as a simple line.
+      </p>
+      <p>
+        The view is controlled by the mouse, Left click to rotate, middle click to zoom, right click to pan.<br/>
+        These controls are taken from the orbital controls example from three.js.<br/>
+        A black dot is drawn to indicate the pivot of the camera.
+      </p>
+      <p>
+        To accentuate details a simple lighting system has been put in place with light source at the camera and at the pivot to highlight the areas being looked at.
+      </p>
+    </d.v>
+      <a href="brain.html">Brain visualization</a>
+  </body>
+</html>

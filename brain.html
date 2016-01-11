@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <script src="http://localhost:8080/skewer"></script> -->
+    <!-- <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="three.min.js" charset="utf-8"></script>
+    <script src="OrbitControls.js"></script>
+    <script src="stats.min.js"></script>
+    <script src="brain.js"></script>
+    <!-- <link href="crime.css" rel="stylesheet" type="text/css"> -->
+    <style>
+      <!-- body { -->
+      <!--   margin: 0px; -->
+      <!--   overflow: hidden; -->
+      <!-- } -->
+    </style>
+  </head>
+  <body style="background-color:lightgrey">
+    <div>
+    <div id="container"></div>
+    <div id="sliders">
+      <div id="axial_slider"></div>
+      <div id="coronal_slider"></div>
+      <div id="sagittal_slider"></div>
+    </div>
+    <div id="tooltip" class="hidden">
+      <p><span id="value">?</span></p>
+    </div>
+    <div>
+      <p>
+        This is a visualization of a series of MRI scans of a human head.
+        The data consists of Axial, Coronal and Sagittal scans, being scans from the top, sideways and from the front.
+      </p>
+      <p>
+        Loading of all this data can take a while.
+        When loaded all planes are shown with the texture also used as an alpha map, creating a simple 3D shape of the head.<br/>
+        Three sliders below the visualization let you adjust which slice you want to look into.
+      </p>
+      <p>
+        Selecting a slide disables its alpha channel, this is partly because Three.js handles transparency badly and partly because it is easier to see details of the slices this way.
+        The problem with alpha handling of Three.js comes from how it orders the polygons for rendering. If two polygons A, and B intersect, some part of A might have to be rendered over B and some part of B might have to be rendered on top of A, but in Three.js no automatic partition of polygons takes place and thus only the front polygon is transparent leading to strange artifacts.
+      </p>
+      <p>
+        The view can be adjusted by mouse, the controls are taken from the orbital controls example.
+      </p>
+    </div>
+    <div>
+      <a href="molecule.html">Molecule visualization</a>
+    </div>
+    </div>
+  </body>
+</html>
