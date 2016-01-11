@@ -167,6 +167,7 @@ function init() {
     create_slider("coronal", coronal);
     create_slider("sagittal", sagittal);
 
+    $("#loading").remove();
     console.log("init done");
     render();
 }

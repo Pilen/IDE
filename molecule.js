@@ -112,8 +112,8 @@ function init() {
         }
     }
 
-    var axes = new THREE.AxisHelper(20);
-    scene.add(axes);
+    // var axes = new THREE.AxisHelper(20);
+    // scene.add(axes);
 
     // camera.lookAt(avg_pos);
     console.log(camera);
@@ -152,6 +152,7 @@ function init() {
         renderer.render(scene, camera);
     }
 
+    $("#loading").remove();
     console.log("init done");
     render();
 }
