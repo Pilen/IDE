@@ -24,7 +24,7 @@ function ready() {
 
 function load_texture(name, i, list) {
     var index = ("000" + (i + 1)).slice(-3)
-    loader.load("IDE/brain/"+name+"_stack/slice_" + index + ".png",
+    loader.load("brain/"+name+"_stack/slice_" + index + ".png",
                 function(texture) {
                     list[i] = {texture:texture};
                     ready();
