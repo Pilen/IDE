@@ -1,0 +1,153 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Vizlog, visualizing logfiles</title>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> -->
+    <script src="jquery-2.2.0.min.js"></script>
+    <script src="jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+    <script src="underscore-min.js"></script>
+    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <script src="crossfilter.min.js"></script>
+    <script src="moment.min.js"></script>
+
+    <script src="vizlog_setup.js"></script>
+    <script src="vizlog_load.js"></script>
+    <script src="vizlog_parse.js"></script>
+    <script src="vizlog_process.js"></script>
+    <script src="vizlog_visualize.js"></script>
+
+    <link href="jquery-ui-1.11.4.custom/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="vizlog.css" rel="stylesheet" type="text/css">
+
+  </head>
+  <body>
+    <div id="loading_area">
+      <div><input type="text" name="pattern" id="pattern" value="remote - - time request status -"/></div>
+      <input type="file" name="logfile" id="load_logfile"/>
+      <input type="url" name="logurl" id="logurl_input"/>
+      <button type="button" id="load_logurl">Load url</button>
+      <div id="load_stats">
+        <span id="load_name">No log loaded</span>
+        <span id="load_size"></span>
+        <div id="load_progress" class="progress_bar">
+          <div class="percent"></div>
+        </div>
+        <span id="load_status"></span>
+        <button id="load_cancel">Cancel load</button>
+      </div>
+      <div id="parse_stats"> </div>
+      <div>
+      </div>
+    </div>
+    <div id="container">
+      <div id="graph"></div>
+      <div id="range"></div>
+      <div id="details"></div>
+    </div>
+    <div id="settings_container">
+      <button type="button" id="zoom_in">+</button>
+      <button type="button" id="zoom_out">-</button>
+      <button type="button" id="zoom_reset">100%</button>
+      <div id="slider"></div>
+    </div>
+    <div id="tooltip" class="hidden">
+      <p><span id="value">?</span></p>
+    </div>
+
+    <div class="content">
+      <h1>Vizlog</h1>
+      <p><b>A log file visualizer</b></p>
+      <p>
+        Vizlog is a simple tool to analyse usage patterns on websites based on the server log files.
+        The tool works locally, no uploading or serverside processing is done.
+        No other knowledge of the site is needed.
+      </p>
+      <p>
+        Click choose file and select a log file. The log must be in the <a href="https://en.wikipedia.org/wiki/Common_Log_Format">Common Log Format</a>
+        You can specify the order of fields in the input area before loading a file.
+        Currently the fields, <i>remote</i>, <i>time</i>, <i>request</i> and <i>status</i> are used.
+        Other fields can be ignored with a -
+      </p><p>
+        Loading, parsing and processing can take a while, especially for big files.
+        The interface might not be responsive during this.
+        Beaware that big files might take up a lot of memory when loaded. A 200MB log easily consumes &gt; 1.7GB memory in chromium.
+      </p><p>
+        When loaded you will see a force graph of pages representing usage patterns.
+        Bellow the graph you can select a sub timespan.
+      </p><p>
+        Each node in the graph corresponds to a single page, or destination from the log file.
+        The links between them describes how closely the pages where visited in each session.
+      </p><p>
+        The basic idea is that if a user visits page <i>A</i>, then <i>B</i>, then <i>C</i> in a session, they are somewhat related.
+      </p><p>
+        An immediate problem is that interaction with a server and thus the clf logs are "stateless".
+        We cant see <i>why</i> a user request a page, or what the server does, only the request and the <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">HTTP status code</a>.
+        A user might use a browser that requests page <i>A</i>, which contains links to <i>B</i> and <i>C</i> which the browser requests automatically to render the site.
+        This is hard to distinguish from a user requesting <i>A</i>, then <i>B</i>, then <i>C</i>
+        Timing and file extensions can be used to hint at these, but are not a perfect heuristic.
+      </p><p>
+        A Fast user with a highspeed connection, who knows the page might request page <i>A</i>  which he gets in a few seconds, then he goes straight to <i>B</i>.
+        Another user not familiar with the page and a slow connection might request page <i>A</i> and then go to <i>B</i> far later than the fast user would, but this is relatively equal when comparing relevance.
+      </p><p>
+        Another problem comes up if a user opens page <i>A</i>, then a bunch of other tabs on the server, then goes back to his open tab and continues to <i>B</i>, which is now far away in the log, but still related.
+      </p><p>
+        Analysis based on file extensions is also problematic as extensions does not actually say much about what the server does and returns.
+        Pages might also hide extensions and different or equal results can be found on <i>/foo/bar</i> <i>/foo/bar.html</i> <i>/foo/bar/</i> <i>/foo/bar//</i> <i>/foo/bar.php</i> and so on.
+      </p><p>
+        Currently Vizlog only analyses pages ending in <i>.html</i>, <i>/</i> or no extensions, and tries to merge nodes it believes lead to the same destination.
+        Also any suffix from ? or # and beyond is ignored.<br/>
+        Only requests returning success (200) are shown.
+      </p><p>
+
+      </p><p>
+        Vizlog does not (yet) support any other way of detecting sessions than by the remote address.
+        This is not optimal as multiple users coming from the same address will be grouped together as a single very active user.
+      </p>
+      <p></p>
+      <p>
+        Links are based on a weighting, this is calculated by looking at each session, and seeing how close each page is to each other.
+        a local weight between to records <i>A</i> and <i>B</i> is calculated as 1/the amount of other pages requested between <i>A</i> and <i>B</i> + 1/the time difference between them in seconds
+        The weight of the link is then calculated as the sum of all local weights both back and forth, normalized to a range between 0 and 1.
+      </p><p>
+        To simplify the graph only links above a certain threshold are shown, this threshold can be selected by a slider.
+        Further, if a node has no shown connection it is not shown either.
+      </p><p>
+        Despite the many simplifications, problems and sluggishness on big datasets, the tool can be used to detect the major usage patterns on websites and requires very little in terms of setup.
+        No other knowledge, setup or webscraping is required, a simple log from Apache or Nginx is all that is needed.
+      </p>
+
+      <h2>Some examples</h2>
+      <p>
+        Despite the huge amount of data on the internet, it can be surprisingly difficult to find publicly available logs.
+      </p><p>
+        <a href="http://ita.ee.lbl.gov/html/contrib/NASA-HTTP.html">http://ita.ee.lbl.gov/html/contrib/NASA-HTTP.html</a></br>
+        Two public logs comes from NASAs website and span July and August 1995!
+      </p><p>
+        Each log is about 200MB and contains just below 2M lines.
+        Luckily as Vizlog does not need access to the site itself it matters little that the page is different/gone.
+      </p><p>
+
+        Even with no similar dataset it is immediately obvious that the way we use the internet has changed.
+        When looking in the logs a lot of unsuccessfully requests are made, a lot of them from mismatched terminal requests making the log exxcelent tests for the parser.
+      </p><p>
+
+        A <i>/shuttle/countdown/</i> can be seen prominently. This is probably in relation to the launch of the space shuttle on <a href="https://en.wikipedia.org/wiki/STS-70">STS-70</a> July 13.
+        This day a small spice occurs in the traffic.
+        It can be seen that a lot of traffic goes to <a href="">/shuttle/missions/sts-70/mission-sts-70.html</a> which, surprisingly can still be found (or at least a NASA page with the same name).
+      </p><p>
+
+        It can be quite interesting to scroll through the nodes to see how people branched heavily out to smaller sites, like into the history section to read about Apollo 13 or other space missions.
+      </p><p>
+      <!-- </p><p> -->
+      <!--   A smaller dataset for the page <a href="http://fdfk19.dk/">fdfk19.dk</a> has also been used. -->
+      <!--   One problem for this page is that the webpage might be accessed a lot from the location FDF Vanløse itself, thus sharing the same IP. -->
+      <!-- </p><p> -->
+      <!--   The graph gives a picture of how some users access the page for articles and pictures, this might be parents, -->
+      <!-- </p> -->
+
+
+
+    </div>
+
+  </body>
+</html>
