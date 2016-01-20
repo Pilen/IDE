@@ -46,7 +46,7 @@ svg {
     pointer-events: none;
 }
 
-#tooltip.hidden {
+.hidden {
     display: none;
 }
 
@@ -98,7 +98,7 @@ svg {
 
 
 #settings_container {
-    background-color: blue;
+    /* background-color: blue; */
     position: absolute;
     left: 1010;
     top: 10;
@@ -107,4 +107,20 @@ svg {
 .content {
     margin: auto;
     width: 32em;
+}
+
+
+#slider {
+    margin: 8px;
+    margin-top: 18px;
+}
+.ui-slider-vertical
+{
+  width: 4px;
+  height: 600px;
+}
+.ui-slider .ui-slider-handle {
+    /*height: 15px;*/
+    width: 8px;
+    padding-left: 4px;
 }

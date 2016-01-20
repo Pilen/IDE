@@ -14,18 +14,13 @@ function p(x) {
 
 function init() {
     $("#load_logfile").on("change", load_logfile);
-    $("#load_logurl").on("click", load_logurl);
-    $("#logurl_input").keyup(function (event) {
-        if (event.keyCode == 13) {
-            load_logurl();
-        }
-    });
+    $("#load_logurl").on("click", load_logurl).hide();
+    $("#logurl_input").keyup(function (event) {if (event.keyCode == 13) {load_logurl();}}).hide();
 
     load_progress = $("#load_progress");
     $("#load_cancel").on("click", load_cancel);
     $("#load_stats").hide();
     $("#load_logfile").focus();
-
 
     var zoom_factor = 1.5;
     $("#zoom_in").on("click", create_zoom(zoom_factor));
@@ -37,10 +32,11 @@ function init() {
 
     $("#slider").slider({
         min: 0,
-        max: 100,
-        value: settings.min_weight_slider,
+        max: 1000,
+        value: 1000 - settings.min_weight_threshold * 1000,
+        orientation: "vertical",
         slide: function(event, ui) {
-            settings.min_weight_threshold = ui.value/100;
+            settings.min_weight_threshold = (1000-ui.value) / 1000;
             render_update();
         }});
 }

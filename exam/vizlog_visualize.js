@@ -6,6 +6,7 @@ var selected;
 
 function render() {
     console.log("Rendering...");
+    $("#settings_container").removeClass("hidden");
     tooltip = null;
     selected = null;
     postprocess(null);
@@ -82,6 +83,9 @@ function render_graph() {
         // .charge(-400)
         // .charge(function(d) {return -parable(d.value);})
         .charge(function(d) {return -parable(node_scale(d.value));})
+        // .linkStrength(function(d) {return p(Math.min(1, d.weight*d.weight));})
+        .linkStrength(function(d) {return 0.4*Math.sqrt(d.weight)+0.6;})
+        // .linkStrength(function(d) {return (d.weight * Math.pow(20, d.weight))/20;})
         .gravity(0.05)
         // .linkDistance(30)
         .linkDistance(function(d) {var min = 50,
@@ -147,7 +151,7 @@ function render_graph() {
             .append("circle")
             .classed("node", true)
             .attr("r", node_radius)
-            .style("fill", function(d) {return "red";})
+            .style("fill", function(d) {return color_path(d.name, d.extension)})
             .style("stroke", "black")
             .style("stroke-width", 0)
             .classed("fixed", function(d) {return d.fixed})
@@ -330,3 +334,50 @@ function merge(target, fresh) {
     //     }
     // }
 // }
+
+
+function color_path(path, extension) {
+    path = (path + extension).toLowerCase();
+    var alphabet = "etaoinsrhldcumfpgwybvkxjqz/._-"
+    var length = alphabet.length;
+    var factor = 360/alphabet.length
+    var hue = 0;
+    // for (var i = 0; i < path.length; i++) {
+    //     var value = alphabet.indexOf(path[i])+1;
+    //     if (value < 0) {
+    //         value = alphabet.length;
+    //     }
+    //     value = value / length;
+    //     hue += 360 * value * (1/(i+1))
+    //     // hue += value * (1/(i+1)) * factor;
+    //     // hue += (1/(value))*factor
+    //     // hue = 360 * Math.pow(value, -(i+1));
+    //     console.log("v: "+value+"  1/v: "+1/value+"  h: "+ hue);
+    // }
+    var letter = 1;
+    var word = 1;
+    var factor = 20
+    var word_hue = 0;
+    for (var i = 0; i < path.length; i++) {
+        if (path[i] == "/") {
+            letter = 1;
+            word += 1;
+            hue += word_hue * (1/word) * factor * i
+            word_hue = 0;
+
+        } else {
+            value = alphabet.indexOf(path[i]) + 1;
+            value = value / length;
+
+            word_hue += (letter * value);
+            letter += 1;
+            // console.log("v: "+value+"  w: "+word_hue+"  h: "+ hue);
+        }
+
+    }
+    // hue = 360 * (hue - Math.floor(hue))
+
+    hue = hue % 361;
+    var color = d3.hsl(hue, 0.7, 0.5);
+    return color;
+}

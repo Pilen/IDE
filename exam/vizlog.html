@@ -44,7 +44,7 @@
       <div id="range"></div>
       <div id="details"></div>
     </div>
-    <div id="settings_container">
+    <div id="settings_container" class="hidden">
       <button type="button" id="zoom_in">+</button>
       <button type="button" id="zoom_out">-</button>
       <button type="button" id="zoom_reset">100%</button>
@@ -58,7 +58,7 @@
       <h1>Vizlog</h1>
       <p><b>A log file visualizer</b></p>
       <p>
-        Vizlog is a simple tool to analyse usage patterns on websites based on the server log files.
+        Vizlog is a simple tool to analyze usage patterns on websites based on the server log files.
         The tool works locally, no uploading or serverside processing is done.
         No other knowledge of the site is needed.
       </p>
@@ -70,7 +70,7 @@
       </p><p>
         Loading, parsing and processing can take a while, especially for big files.
         The interface might not be responsive during this.
-        Beaware that big files might take up a lot of memory when loaded. A 200MB log easily consumes &gt; 1.7GB memory in chromium.
+        Be aware that big files might take up a lot of memory when loaded. A 200MB log easily consumes &gt; 1.7GB memory in chromium.
       </p><p>
         When loaded you will see a force graph of pages representing usage patterns.
         Bellow the graph you can select a sub timespan.
@@ -102,6 +102,7 @@
       </p><p>
         Vizlog does not (yet) support any other way of detecting sessions than by the remote address.
         This is not optimal as multiple users coming from the same address will be grouped together as a single very active user.
+        CLF can store information about login, a session key and the useragent which could be used to better identify sessions.
       </p>
       <p></p>
       <p>
@@ -138,16 +139,13 @@
 
         It can be quite interesting to scroll through the nodes to see how people branched heavily out to smaller sites, like into the history section to read about Apollo 13 or other space missions.
       </p><p>
-      <!-- </p><p> -->
-      <!--   A smaller dataset for the page <a href="http://fdfk19.dk/">fdfk19.dk</a> has also been used. -->
-      <!--   One problem for this page is that the webpage might be accessed a lot from the location FDF Vanløse itself, thus sharing the same IP. -->
-      <!-- </p><p> -->
-      <!--   The graph gives a picture of how some users access the page for articles and pictures, this might be parents, -->
-      <!-- </p> -->
-
-
-
+      </p><p>
+        A smaller dataset for the page <a href="http://fdfk19.dk/">fdfk19.dk</a> has also been used.
+        One problem for this page is that the webpage might be accessed a lot from the location for FDF Vanløse itself, thus sharing the same IP.
+      </p><p>
+        The graph gives a picture of how some users access the page for articles and pictures, this might be parents/a parent, especially at a spike around 19.30.<br/>
+        Throughout the day several smaller visits occur with what looks to be administrative tasks.
+      </p>
     </div>
-
   </body>
 </html>

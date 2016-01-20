@@ -52,10 +52,13 @@ var log_time_reader = d3.time.format("%d/%b/%Y:%H:%M:%S %Z").parse
 function log_time_to_unix(time) {return +log_time_reader(time);}
 
 function preprocess_record(record) {
+    if (record.method !== "GET") {
+        return;
+    }
     if (record.extension &&
         record.extension !== "" &&
         !record.extension.startsWith("/") &&
-        record.extension !== ".html") {
+        pages_extensions.indexOf(record.extension) === -1) {
         return;
     }
 
@@ -221,10 +224,10 @@ function consolidate_sites() {
                     current_rating = 7;
                 } else if (extension === ".html") {
                     current_rating = 100;
-                } else if (extension in pages_extensions) {
+                } else if (pages_extensions.indexOf(extension) != -1) {
                     current_rating = 70;
                     named = named || extension;
-                } else if (extension in media_extensions) {
+                } else if (media_extensions.indexOf(extension) != -1) {
                     current_rating = 2;
                 } else {
                     current_rating = 50;
